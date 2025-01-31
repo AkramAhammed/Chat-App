@@ -19,7 +19,7 @@ module.exports = {
       updatedAt: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.fn("NOW") }
     });
 
-    // ✅ Prevent self-messaging
+    
     await queryInterface.addConstraint("chats", {
       fields: ["sender_id", "receiver_id"],
       type: "check",

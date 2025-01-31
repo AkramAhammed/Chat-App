@@ -6,11 +6,8 @@ exports.register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Convert email and username to lowercase to prevent duplicate issues
         const normalizedEmail = email.toLowerCase();
         const normalizedUsername = username.toLowerCase();
-
-        // Check if username or email already exists
         const existingUser = await User.findOne({ where: { username: normalizedUsername } });
         if (existingUser) {
             return res.status(400).json({ error: "Username is already taken." });
@@ -21,10 +18,8 @@ exports.register = async (req, res) => {
             return res.status(400).json({ error: "Email is already registered." });
         }
 
-        // Hash password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
         const newUser = await User.create({
             username: normalizedUsername,
             email: normalizedEmail,
@@ -42,29 +37,23 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Ensure email is lowercase to avoid case-sensitive login issues
         const normalizedEmail = email.toLowerCase();
 
-        // Find user in the database
         const user = await User.findOne({ where: { email: normalizedEmail } });
 
         if (!user) {
             return res.status(401).json({ error: "User not found." });
         }
 
-        // Verify password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ error: "Incorrect password." });
         }
-
-        // Ensure JWT_SECRET is defined
         if (!process.env.JWT_SECRET) {
             console.error("JWT_SECRET is missing in .env!");
             return res.status(500).json({ error: "Server error: JWT_SECRET is not set" });
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             { id: user.id, username: user.username },
             process.env.JWT_SECRET,
@@ -96,6 +85,5 @@ exports.getUserProfile = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-    // Logout is usually handled on the client by deleting the JWT token
     res.json({ message: "User logged out successfully" });
 };

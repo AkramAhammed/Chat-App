@@ -21,7 +21,7 @@ const File = sequelize.define("File", {
     updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, allowNull: false }
 }, { timestamps: true });
 
-// Define relationships
+
 File.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 module.exports = File;

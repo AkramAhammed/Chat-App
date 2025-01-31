@@ -2,8 +2,8 @@ const Chat = require("../models/chat.model");
 
 exports.sendMessage = async (req, res) => {
     try {
-        const { receiver_id, content } = req.body; // ✅ Using "receiver_id" to match model
-        const sender_id = req.user.id; // ✅ Using "sender_id" to match model
+        const { receiver_id, content } = req.body; 
+        const sender_id = req.user.id; 
 
         if (!receiver_id || !content) {
             return res.status(400).json({ error: "Receiver ID and content are required." });
@@ -24,8 +24,8 @@ exports.sendMessage = async (req, res) => {
 
 exports.getChatHistory = async (req, res) => {
     try {
-        const { receiver_id } = req.query; // ✅ Using "receiver_id" to match model
-        const sender_id = req.user.id; // ✅ Using "sender_id" to match model
+        const { receiver_id } = req.query; 
+        const sender_id = req.user.id; 
 
         if (!receiver_id) {
             return res.status(400).json({ error: "Receiver ID is required." });
