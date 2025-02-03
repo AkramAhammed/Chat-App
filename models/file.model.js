@@ -19,7 +19,10 @@ const File = sequelize.define("File", {
     file_size: { type: DataTypes.BIGINT, allowNull: false },
     createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, allowNull: false },
     updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, allowNull: false }
-}, { timestamps: true });
+}, { 
+    tableName: "files",
+    timestamps: true 
+   });
 
 
 File.belongsTo(User, { foreignKey: "user_id", as: "user" });
